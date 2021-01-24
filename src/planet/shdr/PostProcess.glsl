@@ -37,6 +37,10 @@ struct Planet {
 		vec3 position;
 		float radius;
 		float maxHeight;
+
+		vec3 rCoeff;
+		vec3 mCoeff;
+		float mieG;
 };
 
 

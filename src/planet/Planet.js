@@ -37,6 +37,10 @@ class Planet extends BABYLON.TransformNode
 			amplitude: 1.0,
 			roughness: 4.0,
 			persistence: 0.4,
+
+			rCoeff: new BABYLON.Vector3(3.8e-3, 13.5e-3, 33.1e-3),
+			mCoeff: new BABYLON.Vector3(21e-3, 21e-3, 21e-3),
+			mieG: 0.8
 		};
 
 

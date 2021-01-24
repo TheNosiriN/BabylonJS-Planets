@@ -89,10 +89,10 @@ lowp vec4 fbm(vec3 coords)
 
 
 		float f = 0.0;
-    f  = 0.5000 * cellular( coords ).x; coords = M3*coords*roughness;
-    f += 0.2500 * cellular( coords ).x; coords = M3*coords*roughness;
-    f += 0.1250 * cellular( coords ).x; coords = M3*coords*roughness;
-    f += 0.0625 * cellular( coords ).x;
+    f  = 0.5000 * (cellular( coords ).x); coords = M3*coords*roughness;
+    f += 0.2500 * (cellular( coords ).x); coords = M3*coords*roughness;
+    f += 0.1250 * (cellular( coords ).x); coords = M3*coords*roughness;
+    f += 0.0625 * (cellular( coords ).x);
 		f = (f/0.9375);
 
 		float ff = 0.0;
@@ -102,7 +102,7 @@ lowp vec4 fbm(vec3 coords)
     ff += 0.0625 * cellular( coords ).x*f;
 		ff = (ff/0.9375);
 
-		float fn = (f) * (1.0-ff*ff*f);
+		float fn = (f) + (ff*ff*ff);
 		return vec4(clamp(fn*2.0-1.0, -1.0, 1.0), 0,0,0);
 }
 

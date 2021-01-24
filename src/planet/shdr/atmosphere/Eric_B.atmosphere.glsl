@@ -55,8 +55,8 @@ const float EARTH_RADIUS = 6360000.0;
 #define RES_MU_S 32.0
 #define RES_NU 8.0
 
-const vec3 betaR = vec3(5.8e-3, 13.5e-3, 33.1e-3);//vec3(0.0058, 0.0135, 0.0331);
-const vec3 betaM = vec3(21e-3);
+/* const vec3 betaR = vec3(5.8e-3, 13.5e-3, 33.1e-3);//vec3(0.0058, 0.0135, 0.0331);
+const vec3 betaM = vec3(21e-3); */
 const float mieG = 0.8;
 
 const float EPSILON_ATMOSPHERE = 0.00001;
@@ -89,7 +89,7 @@ vec4 Texture4D(sampler3D table, float r, float mu, float muS, float nu)
     return textureLod(table, vec3((uNu + uMuS) / RES_NU, uMu, uR), 0.0) * (1.0 - lep) + textureLod(table, vec3((uNu + uMuS + 1.0) / RES_NU, uMu, uR), 0.0) * lep;
 }
 
-vec3 GetMie(vec4 rayMie)
+vec3 GetMie(vec4 rayMie, vec3 betaR)
 {
 	// approximated single Mie scattering (cf. approximate Cm in paragraph "Angular precision")
 	// rayMie.rgb=C*, rayMie.w=Cm,r
@@ -171,7 +171,7 @@ vec3 SkyIrradiance(vec3 worldPos)
 	return Irradiance(r, muS) * SUN_INTENSITY;
 }
 
-vec3 SkyRadiance(vec3 camera, vec3 viewdir, out vec3 extinction)
+vec3 SkyRadiance(vec3 camera, vec3 viewdir, out vec3 extinction, vec3 betaR, vec3 betaM)
 {
 	// scattered sunlight between two points
 	// camera=observer
@@ -206,7 +206,7 @@ vec3 SkyRadiance(vec3 camera, vec3 viewdir, out vec3 extinction)
 
     if(r <= Rt)
     {
-        vec3 inScatterM = GetMie(inScatter);
+        vec3 inScatterM = GetMie(inScatter, betaR);
         float phaseR = PhaseFunctionR(nu);
         float phaseM = PhaseFunctionM(nu);
         result = inScatter.rgb *
@@ -222,7 +222,7 @@ vec3 SkyRadiance(vec3 camera, vec3 viewdir, out vec3 extinction)
     return result * SUN_INTENSITY;
 }
 
-vec3 InScattering(vec3 camera, vec3 _point, out vec3 extinction, float shaftWidth, vec3 screen)
+vec3 InScattering(vec3 camera, vec3 _point, out vec3 extinction, float shaftWidth, vec3 screen, vec3 betaR, vec3 betaM)
 {
 
 	// single scattered sunlight between two points
@@ -336,7 +336,7 @@ vec3 InScattering(vec3 camera, vec3 _point, out vec3 extinction, float shaftWidt
 		inScatter.w *= smoothstep(0.00, 0.02, muS);
 		/* inScatter.rgb += screen; */
 
-		vec3 inScatterM = distance(camera, _point) < (Rt/10.0) ? vec3(0.0) : GetMie(inScatter);
+		vec3 inScatterM = distance(camera, _point) < (Rt/10.0) ? vec3(0.0) : GetMie(inScatter, betaR);
 		float phaseR = PhaseFunctionR(nu);
 		float phaseM = PhaseFunctionM(nu);
 		result = max(
@@ -402,7 +402,7 @@ bool intersectAtmosphere(vec3 camera, vec3 dir, out float offset, out float maxP
 }
 
 
-vec3 GetInscatteredLight(vec3 camera, vec3 surfacePos, vec3 viewDir, inout vec3 attenuation, inout float irradianceFactor, vec3 screen)
+vec3 GetInscatteredLight(vec3 camera, vec3 surfacePos, vec3 viewDir, inout vec3 attenuation, inout float irradianceFactor, vec3 screen, vec3 betaR, vec3 betaM)
 {
 	vec3 inscatteredLight = vec3(0.0, 0.0, 0.0);
 	vec4 inscatterSurface;
@@ -490,7 +490,7 @@ vec3 GetInscatteredLight(vec3 camera, vec3 surfacePos, vec3 viewDir, inout vec3 
 
 				 vec3 phaseR = (PhaseFunctionR(nuStartPos)/vec3(5.8e-3, 1.35e-2, 3.31e-2)) * betaR;
 				 vec3 phaseM = (PhaseFunctionM(nuStartPos)/vec3(4e-3, 4e-3, 4e-3)) * betaM;
-				 inscatteredLight = max(inscatter.rgb * phaseR + GetMie(inscatter) * phaseM, 0.0);
+				 inscatteredLight = max(inscatter.rgb * phaseR + GetMie(inscatter, betaR) * phaseM, 0.0);
 				 inscatteredLight *= SUN_INTENSITY;
 
 		}
@@ -524,7 +524,7 @@ vec3 Atmosphere(vec3 eye, vec3 dir, vec3 screen, float rdepth, float depth)
 	float irradianceFactor;
 	vec3 tmp = depth == 1.0 ? vec3(0.0) : wpos;
 	/* vec3 scatter = InScattering(eye*SCALE, wpos, extinction, 1.0, screen); */
-	vec3 scatter = GetInscatteredLight(eye*SCALE, wpos, dir, extinction, irradianceFactor, screen);
+	vec3 scatter = GetInscatteredLight(eye*SCALE, wpos, dir, extinction, irradianceFactor, screen, planet.rCoeff, planet.mCoeff);
 	vec3 reflected = ((SunRadiance(tmp)+SkyIrradiance(tmp))/(SUN_INTENSITY/2.0));// * (SUN_INTENSITY/2.0);
 	/* reflected = smoothstep(0.0, 1.0, reflected); */
 	reflected = pow(reflected, vec3(1.5));

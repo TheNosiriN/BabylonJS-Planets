@@ -52,6 +52,7 @@ function postload()
 	        "camera.world", "camera.view",
 					"persistence", "warpAmplitude",
 	        "camera.projection", "camera.transform",
+					"planet.rCoeff", "planet.mCoeff", "planet.mieG",
 	        "camera.position", "camera.direction", "camera.fov",
 					"planet.radius", "planet.position", "planet.maxHeight"
       ], [
@@ -88,6 +89,10 @@ function postload()
 			effect.setFloat("persistence", planet.properties.persistence);
 			effect.setFloat("warpAmplitude", planet.properties.warpAmplitude);
 			effect.setFloat("warpFrequency", planet.properties.warpFrequency);
+
+			effect.setVector3("planet.rCoeff", planet.properties.rCoeff);
+			effect.setVector3("planet.mCoeff", planet.properties.mCoeff);
+			effect.setFloat("planet.mieG", planet.properties.mieG);
 
 			effect.setVector3("lightDir", light.direction.multiply(new BABYLON.Vector3(-1,-1,-1)));
 
