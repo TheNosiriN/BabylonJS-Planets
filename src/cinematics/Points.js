@@ -1,0 +1,48 @@
+
+const entrancePoints = [
+	//new BABYLON.Vector3(550.1062, 100.9415, -4423.2784),
+	new BABYLON.Vector3(100.1062, 100.9415, -4423.2784),
+	new BABYLON.Vector3(749.2049, 100.9415, -4246.5867),
+	new BABYLON.Vector3(993.3085, 100.9523, -3951.7989),
+	new BABYLON.Vector3(1348.5845, 101.0511, -3512.1049)
+];
+
+
+
+
+
+
+const entrance2Points = [
+	new BABYLON.Vector3(346.7379, 959.4741, -53.9615),
+	new BABYLON.Vector3(346.7379, 959.4741, -40.9615),
+];
+
+
+
+
+
+const entrance3Points = [
+	new BABYLON.Vector3(375.5758, 925.2052, -148.6066),
+	new BABYLON.Vector3(375.5758, 925.2052, -160.6066),
+];
+
+
+
+const exit1Points = [
+	new BABYLON.Vector3(345.1947, 935.6327, -87.6773),
+	new BABYLON.Vector3(352.5547, 935.6327, -78.0173),
+];
+
+
+
+const exit3points = [
+	new BABYLON.Vector3(100.1062, 100.9415, -4423.2784),
+	new BABYLON.Vector3(100.1062, 113.9415, -4323.2784),
+	new BABYLON.Vector3(100.6056, 140.8462, -3900.8712),
+	new BABYLON.Vector3(100.6056, 250.8462, -3000.8712),
+	new BABYLON.Vector3(250.6056, 500.8462, -2000.8712),
+	new BABYLON.Vector3(400.6056, 800.8462, -1000.8712),
+	new BABYLON.Vector3(400.6056, 900.8462, -500.8712),
+	new BABYLON.Vector3(478.6056, 900.8462, -200.8712),
+	new BABYLON.Vector3(300.1237, 897.4403, -20.3804),
+];
