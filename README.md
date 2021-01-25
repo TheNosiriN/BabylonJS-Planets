@@ -12,3 +12,4 @@ Realtime Planet Rendering powered by BabylonJS
 
 # Can I use it?
 Feel free to fork and improve it however you want.
+But it's under active development by me so beware of bugs :)
