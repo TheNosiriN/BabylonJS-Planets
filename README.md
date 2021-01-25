@@ -1,7 +1,9 @@
 # BabylonJS Planets
 Realtime Planet Rendering powered by BabylonJS
 
-![alt text](https://cdn.discordapp.com/attachments/652263015235846144/793980268943900732/planet.png)
+![p1](https://cdn.discordapp.com/attachments/652263015235846144/793980268943900732/planet.png)
+![p2](https://cdn.discordapp.com/attachments/652263015235846144/803049377031258112/planet_dev_13.png)
+![p3](https://cdn.discordapp.com/attachments/652263015235846144/803051275850612776/planet_dev_12.png)
 
 
 # As seen on:
